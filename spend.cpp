@@ -63,8 +63,8 @@ namespace {
             wallet.m_min_fee = CFeeRate{ConsumeMoney(fuzzed_data_provider, /*max=*/COIN)};
         }
 
-        std::vector<CRecipient> recipients = {{GetScriptForDestination(*Assert(g_wallet_ptr->GetNewDestination(RandomOutputType(fuzzed_data_provider), "dummy"))),
-                                            /*nAmount=*/ConsumeMoney(fuzzed_data_provider, /*max=*/COIN), /*fSubtractFeeFromAmount=*/fuzzed_data_provider.ConsumeBool()}};
+        // GetScriptForDestination(*Assert(&wallet->GetNewDestination(RandomOutputType(fuzzed_data_provider), "dummy")))
+        std::vector<CRecipient> recipients = {{GetScriptForRawPubKey(coinbaseKey.GetPubKey())),/*nAmount=*/ConsumeMoney(fuzzed_data_provider, /*max=*/COIN), /*fSubtractFeeFromAmount=*/fuzzed_data_provider.ConsumeBool()}};
         
         constexpr int RANDOM_CHANGE_POSITION = -1;
 
