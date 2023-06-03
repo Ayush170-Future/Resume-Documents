@@ -36,7 +36,7 @@ namespace {
     }
 
     FUZZ_TARGET_INIT(spend, initialize_setup) {
-        
+
         FuzzedDataProvider fuzzed_data_provider{buffer.data(), buffer.size()};
         CWallet& wallet = *g_wallet_ptr;
         {
@@ -63,9 +63,9 @@ namespace {
             wallet.m_min_fee = CFeeRate{ConsumeMoney(fuzzed_data_provider, /*max=*/COIN)};
         }
 
-        // GetScriptForDestination(*Assert(&wallet->GetNewDestination(RandomOutputType(fuzzed_data_provider), "dummy")))
-        std::vector<CRecipient> recipients = {{GetScriptForRawPubKey(coinbaseKey.GetPubKey())),/*nAmount=*/ConsumeMoney(fuzzed_data_provider, /*max=*/COIN), /*fSubtractFeeFromAmount=*/fuzzed_data_provider.ConsumeBool()}};
-        
+        std::vector<CRecipient> recipients = {{GetScriptForRawPubKey({}),
+                                            /*nAmount=*/ConsumeMoney(fuzzed_data_provider, /*max=*/COIN), /*fSubtractFeeFromAmount=*/fuzzed_data_provider.ConsumeBool()}};
+
         constexpr int RANDOM_CHANGE_POSITION = -1;
 
         CCoinControl coin_control;
