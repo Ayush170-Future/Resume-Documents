@@ -100,13 +100,13 @@ namespace {
 
         // TODO: FundTransaction().
         CMutableTransaction tx = ConsumeDeserializable<CMutableTransaction>(fuzzed_data_provider);
-        CAmount nFeeRet = CFeeRate{ConsumeMoney(fuzzed_data_provider, /*max=*/COIN)};
-        int& nChangePosInOut = fuzzed_data_provider.ConsumeIntegral<int>();
+        CAmount nFeeRet{ConsumeMoney(fuzzed_data_provider, /*max=*/COIN)};
+        int nChangePosInOut = fuzzed_data_provider.ConsumeIntegral<int>();
         const std::string format_string = fuzzed_data_provider.ConsumeRandomLengthString(64);
         const bilingual_str error{format_string, format_string}; 
         bool lockUnspents = fuzzed_data_provider.ConsumeBool();
-        const std::set<int>& setSubtractFeeFromOutputs;
-        int random_len = fuzzed_data_provider.ConsumeIntegral<int>();
+        const std::set<int> setSubtractFeeFromOutputs;
+        unsigned int random_len = fuzzed_data_provider.ConsumeIntegral<unsigned int>();
         LIMITED_WHILE(fuzzed_data_provider.ConsumeBool(), random_len) 
         {
             setSubtractFeeFromOutputs.insert(fuzzed_data_provider.ConsumeIntegral<int>());
